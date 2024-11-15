@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.rbacsystem.mapper.UserMapper">
+
+    <resultMap id="UserResultMap" type="com.example.rbacsystem.model.User">
+        <id property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="getUserById" resultMap="UserResultMap">
+        SELECT * FROM users WHERE user_id = #{userId}
+    </select>
+
+    <select id="findByUsername" resultMap="UserResultMap">
+        SELECT * FROM users WHERE username = #{username}
+    </select>
+
+    <insert id="insertUser" parameterType="com.example.rbacsystem.model.User">
+        INSERT INTO users (username, password, email, status)
+        VALUES (#{username}, #{password}, #{email}, #{status})
+    </insert>
+    <select id="getUserPermissions" resultType="String">
+        SELECT p.permission_name
+        FROM permissions p
+        JOIN role_permissions rp ON p.permission_id = rp.permission_id
+        JOIN user_roles ur ON rp.role_id = ur.role_id
+        WHERE ur.user_id = #{userId}
+    </select>
+
+    <!-- 其他 SQL 映射 -->
+</mapper>
