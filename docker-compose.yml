@@ -27,7 +27,7 @@ services:
   server:
     container_name: ssadmin-server
     build:
-      context: ./ssadmin-server/
+      context: ./background/rbacdemo
     image: ssadmin-server
     restart: unless-stopped
     ports:
@@ -41,7 +41,7 @@ services:
           -Djava.security.egd=file:/dev/./urandom
         }
       ARGS:
-        --spring.datasource.url=${DATASOURCE_URL:-jdbc:mysql://ssadmin-mysql:3306/ssadmin?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true}
+        --spring.datasource.url=${DATASOURCE_URL:-jdbc:mysql://ssadmin-mysql:3306/rbacsystem?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true}
         --spring.datasource.username=${DATASOURCE_USERNAME:-root}
         --spring.datasource.password=${DATASOURCE_PASSWORD:-123456}
         --spring.redis.host=${REDIS_HOST:-ssadmin-redis}
@@ -52,7 +52,7 @@ services:
   web:
     container_name: ssadmin-web
     build:
-      context: ./ssadmin-web
+      context: ./forward/my-admin-project
       args:
         NODE_ENV:
           ENV=${NODE_ENV:-production}
