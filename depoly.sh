@@ -44,9 +44,9 @@ echo -e "开始构建 jar 包..."
 
 docker run -it --rm --name ssadmin-maven \
     -v ssadmin-maven-repo:/root/.m2 \
-    -v "$PWD/ssadmin-server":/usr/src/mymaven \
+    -v "$PWD/background/rbacdemo":/usr/src/mymaven \
     -w /usr/src/mymaven \
-    maven:3.8.4-jdk-8 mvn clean install package -e '-Dmaven.test.skip=true' || { echo -e "${RED}构建 jar 包失败。${NC}"; exit 1; }
+    maven:3.8.4-openjdk-17 mvn clean install package -e '-Dmaven.test.skip=true' || { echo -e "${RED}构建 jar 包失败。${NC}"; exit 1; }
 
 echo -e "通过容器构建 jar 包......${GREEN}通过${NC}"
 
